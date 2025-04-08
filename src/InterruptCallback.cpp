@@ -11,14 +11,14 @@
 
     #if defined ESP32
     // We don't support ESP32 boards in interrupt mode
-    #elif defined __AVR_ATmega2560__  // Arduino Mega
+    #elif (defined __AVR_ATmega2560__)  || defined(ARDUINO_ARCH_RP2040) // Supported Boards
         #define USE_TIMER_1 true
         #define USE_TIMER_2 true
         #define USE_TIMER_3 false
         #define USE_TIMER_4 false
         #define USE_TIMER_5 false
 PUSH_NO_WARNINGS
-        #include "libs/TimerInterrupt/TimerInterrupt.h"
+        #include "TimerInterrupt_Generic.h"
 POP_NO_WARNINGS
     #else
         #error Unrecognized board selected. Either implement interrupt code or define the board here.

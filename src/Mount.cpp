@@ -10,7 +10,7 @@
 
 PUSH_NO_WARNINGS
 #ifdef NEW_STEPPER_LIB
-    #ifdef __AVR_ATmega2560__
+    #if defined(__AVR_ATmega2560__) || defined(ARDUINO_ARCH_RP2040)
         #include "InterruptAccelStepper.h"
         #include "StepperConfiguration.hpp"
     #endif
@@ -29,12 +29,12 @@ PUSH_NO_WARNINGS
 POP_NO_WARNINGS
 
 // slewStatus()
-#define SLEWING_DEC      B00000010
-#define SLEWING_RA       B00000001
-#define SLEWING_BOTH     B00000011
-#define SLEWING_TRACKING B00001000
-#define NOT_SLEWING      B00000000
-#define SLEW_MASK_ANY    B1111
+#define SLEWING_DEC      0b00000010
+#define SLEWING_RA       0b00000001
+#define SLEWING_BOTH     0b00000011
+#define SLEWING_TRACKING 0b00001000
+#define NOT_SLEWING      0b00000000
+#define SLEW_MASK_ANY    0b1111
 
 #define UART_CONNECTION_TEST_RETRIES 5
 
@@ -1080,7 +1080,7 @@ String Mount::getMountHardwareInfo()
     String ret = F("Unknown,");
 #if defined(ESP32)
     ret = F("ESP32,");
-#elif defined(__AVR_ATmega2560__)
+#elif defined(__AVR_ATmega2560__) || defined(ARDUINO_ARCH_RP2040)
     ret = F("Mega,");
 #endif
 

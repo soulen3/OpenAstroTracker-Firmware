@@ -13,7 +13,12 @@
     #define SIGN(x) ((x >= 0) ? 1 : -1)
 
     // minimal stepping frequency (steps/s) based on cpu frequency, timer counter overflow and max amount of overflows
-    #define MIN_STEPS_PER_SEC (static_cast<float>(F_CPU) / (static_cast<long>(UINT16_MAX) * static_cast<long>(UINT8_MAX)))
+    #if defined(ARDUINO_ARCH_RP2040)
+        // RP2040 doesn't have F_CPU marco and runs at 133MHz.
+        #define MIN_STEPS_PER_SEC (static_cast<float>(133333333UL) / (static_cast<long>(UINT16_MAX) * static_cast<long>(UINT8_MAX)))
+    #else
+        #define MIN_STEPS_PER_SEC (static_cast<float>(F_CPU) / (static_cast<long>(UINT16_MAX) * static_cast<long>(UINT8_MAX)))
+    #endif   
 
 template <typename STEPPER> class InterruptAccelStepper
 {

@@ -1,7 +1,10 @@
 #include "inc/Globals.hpp"
+
+#if !(defined(ARDUINO_ARCH_RP2040))
 PUSH_NO_WARNINGS
 #include <EEPROM.h>
 POP_NO_WARNINGS
+#endif
 
 #include "../Configuration.hpp"
 #include "Utility.hpp"
@@ -17,12 +20,12 @@ const float SteppingStorageNormalized = 25600.0;
 
 #if USE_DUMMY_EEPROM == true
 
-static uint8_t dummyEepromStorage[EEPROMStore::STORE_SIZE];
+static uint8_t dummyEepromStorage[66];
 
 // Initialize the EEPROM object for ESP boards, setting aside storage
 void EEPROMStore::initialize()
 {
-    LOG(DEBUG_EEPROM, "[EEPROM]: Dummy: Startup with %d bytes", EEPROMStore::STORE_SIZE);
+    LOG(DEBUG_EEPROM, "[EEPROM]: Dummy: Startup with %d bytes", 66);
     memset(dummyEepromStorage, 0, sizeof(dummyEepromStorage));
 
     displayContents();  // Will always be empty at restart
