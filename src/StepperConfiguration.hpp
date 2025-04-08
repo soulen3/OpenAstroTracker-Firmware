@@ -37,7 +37,7 @@ struct Ra {
     using interrupt = IntervalInterrupt<Timer::TIMER_3>;
     using driver    = Driver<pin_step, pin_dir>;
 
-    using ramp_slew = AccelerationRamp<256, interrupt::FREQ, UINT32(SPEED_SLEW), UINT32(ACCEL_SLEW)>;
+    using ramp_slew = AccelerationRamp<128, interrupt::FREQ, UINT32(SPEED_SLEW), UINT32(ACCEL_SLEW)>;
     using ramp_trk  = ConstantRamp<interrupt::FREQ>;
 
     using stepper_slew = Stepper<interrupt, driver, ramp_slew>;
@@ -68,7 +68,7 @@ struct Dec {
     using interrupt = IntervalInterrupt<Timer::TIMER_4>;
     using driver    = Driver<pin_step, pin_dir>;
 
-    using ramp_slew = AccelerationRamp<256, interrupt::FREQ, UINT32(SPEED_SLEW), UINT32(ACCEL_SLEW)>;
+    using ramp_slew = AccelerationRamp<128, interrupt::FREQ, UINT32(SPEED_SLEW), UINT32(ACCEL_SLEW)>;
     using ramp_trk  = ConstantRamp<interrupt::FREQ>;
 
     using stepper_slew = Stepper<interrupt, driver, ramp_slew>;

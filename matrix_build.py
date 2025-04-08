@@ -23,6 +23,7 @@ BOARDS = [
     "mksgenlv1",
     "esp32",
     "ramps",
+    "micro4v1",
 ]
 
 STEPPER_TYPES = [
@@ -164,6 +165,19 @@ BOARD_SUPPORT = {
         "DISPLAY_TYPE": [
             "DISPLAY_TYPE_NONE",
             "DISPLAY_TYPE_LCD_KEYPAD"
+        ],
+    }),
+    "micro4v1": update_dict(BUILD_FLAGS, {
+        "USE_GPS": [0],
+        "USE_GYRO_LEVEL": [0],
+        "DISPLAY_TYPE": [
+            "DISPLAY_TYPE_NONE",
+        ],
+                "FOCUS_DRIVER_TYPE": [
+            "DRIVER_TYPE_NONE"
+        ],
+        "FOCUS_STEPPER_TYPE": [
+            "STEPPER_TYPE_NONE"
         ],
     }),
 }

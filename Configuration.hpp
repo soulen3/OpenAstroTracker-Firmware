@@ -266,6 +266,8 @@
     #include "boards/AVR_MKS_GEN_L_V2/pins_MKS_GEN_L_V2.h"
 #elif (BOARD == BOARD_AVR_MKS_GEN_L_V21)
     #include "boards/AVR_MKS_GEN_L_V21/pins_MKS_GEN_L_V21.h"
+#elif (BOARD == BOARD_RP2040_MIRCO_4_V1)
+    #include "boards/RP2040/pins_MIRCO_4_V1.h"
 #endif
 
 #include "Configuration_adv.hpp"
