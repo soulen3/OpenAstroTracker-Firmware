@@ -620,7 +620,7 @@
 
 // Stepper drivers
 #if (RA_DRIVER_TYPE == DRIVER_TYPE_TMC2209_UART)
-    #if defined(ESP32)
+    #if defined(ESP32) || defined(ARDUINO_ARCH_RP2040)
         #define RA_SERIAL_PORT Serial2  // Can be shared with DEC_SERIAL_PORT
     #elif defined(__AVR_ATmega2560__)
     // Uses SoftwareSerial
@@ -628,7 +628,7 @@
 #endif
 
 #if (DEC_DRIVER_TYPE == DRIVER_TYPE_TMC2209_UART)
-    #if defined(ESP32)
+    #if defined(ESP32) || defined(ARDUINO_ARCH_RP2040)
         #define DEC_SERIAL_PORT Serial2  // Can be shared with RA_SERIAL_PORT
     #elif defined(__AVR_ATmega2560__)
     // Uses SoftwareSerial
@@ -637,7 +637,7 @@
 
 // Focuser
 #if (FOCUS_DRIVER_TYPE == DRIVER_TYPE_TMC2209_UART)
-    #if defined(ESP32)
+    #if defined(ESP32) || defined(ARDUINO_ARCH_RP2040)
         #define FOCUS_SERIAL_PORT Serial2  // Can be shared with RA_SERIAL_PORT
     #elif defined(__AVR_ATmega2560__)
     // Uses SoftwareSerial

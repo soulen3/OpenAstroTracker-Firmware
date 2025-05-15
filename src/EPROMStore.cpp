@@ -1,10 +1,8 @@
 #include "inc/Globals.hpp"
 
-#if !(defined(ARDUINO_ARCH_RP2040))
 PUSH_NO_WARNINGS
 #include <EEPROM.h>
 POP_NO_WARNINGS
-#endif
 
 #include "../Configuration.hpp"
 #include "Utility.hpp"
@@ -53,7 +51,7 @@ uint8_t EEPROMStore::read(uint8_t location)
     return value;
 }
 
-#elif defined(ESP32)
+#elif defined(ESP32) || defined(ARDUINO_ARCH_RP2040)
 
 // Initialize the EEPROM object for ESP boards, setting aside space for storage
 void EEPROMStore::initialize()

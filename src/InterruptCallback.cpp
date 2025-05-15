@@ -9,7 +9,7 @@
 
 #ifndef NEW_STEPPER_LIB
 
-    #if defined ESP32
+    #if defined(ESP32) || defined(ARDUINO_ARCH_RP2040)
     // We don't support ESP32 boards in interrupt mode
     #elif (defined __AVR_ATmega2560__)  || defined(ARDUINO_ARCH_RP2040) // Supported Boards
         #define USE_TIMER_1 true
@@ -24,7 +24,7 @@ POP_NO_WARNINGS
         #error Unrecognized board selected. Either implement interrupt code or define the board here.
     #endif
 
-    #if defined(ESP32)
+    #if defined(ESP32)|| defined(ARDUINO_ARCH_RP2040)
 
     #elif defined __AVR_ATmega2560__
 

@@ -4,6 +4,8 @@
 
 #pragma once
 
+#define SERIAL_BAUDRATE 115200
+
 // DRIVER_TYPE_TMC2209_UART requires 4 digital pins in Arduino pin numbering
 #ifndef RA_STEP_PIN
     #define RA_STEP_PIN 54  // STEP

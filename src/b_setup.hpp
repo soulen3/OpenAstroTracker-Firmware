@@ -28,6 +28,9 @@ POP_NO_WARNINGS
 #if (INFO_DISPLAY_TYPE == INFO_DISPLAY_TYPE_I2C_SSD1306_128x64)
     #include "SSD1306_128x64_Display.hpp"
 #endif
+#if defined(ARDUINO_ARCH_RP2040)
+    #include "pico/multicore.h"
+#endif
 
 LcdMenu lcdMenu(16, 2, MAXMENUITEMS);
 #if DISPLAY_TYPE == DISPLAY_TYPE_LCD_KEYPAD
@@ -60,13 +63,15 @@ WifiControl wifiControl(&mount, &lcdMenu);
  *    Note that Wifi drivers will be sharing Core 0 with stepperControlTask().
  *    This configuration decouples stepper servicing from other OAT activities by using both cores.
  * 2) By default (e.g. for ATmega2560) a periodic timer is configured for a 500 us (2 kHz rate interval).
- *    This timr generates interrupts which are handled by stepperControlCallback(). The stepper 
+ *    This timer generates interrupts which are handled by stepperControlCallback(). The stepper 
  *    servicing therefore suspends loop() to generate motion, ensuring smooth tracking.
  */
 #if defined(ESP32)
 
 TaskHandle_t StepperTask;
-
+#ifdef ARDUINO_ARCH_RP2040
+    #define IRAM_ATTR
+#endif
 // This is the task for simulating periodic interrupts on ESP32 platforms.
 // It should do very minimal work, only calling Mount::interruptLoop() to step the stepper motors as needed.
 // This task function is run on Core 0 of the ESP32 and never returns
@@ -92,6 +97,15 @@ void stepperControlTimerCallback(void *payload)
         mountCopy->interruptLoop();
 }
     #endif
+#endif
+
+#if defined(ARDUINO_ARCH_RP2040)
+    void core1Main() {
+        while (true) {
+            stepperControlTimerCallback(&mount);
+            delayMicroseconds(500); // 2kHz        
+        }
+    }
 #endif
 
 /////////////////////////////////
@@ -493,7 +507,9 @@ void setup()
                             1,                   // Priority (2 is higher than 1)
                             &StepperTask,        // The location that receives the thread id
                             0);                  // The core to run this on
-
+#elif defined(ARDUINO_ARCH_RP2040) 
+    while (!Serial) {}
+    multicore_launch_core1(core1Main);
 #else
     #ifndef NEW_STEPPER_LIB
     // 2 kHz updates (higher frequency interferes with serial communications and complete messes up OATControl communications)

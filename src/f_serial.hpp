@@ -19,7 +19,7 @@ void serialLoop()
     mount.loop();
     mount.displayStepperPositionThrottled();
 
-    #ifdef ESP32
+    #if defined(ESP32) || defined(ARDUINO_ARCH_RP2040)
     processSerialData();
     #endif
 
@@ -32,16 +32,16 @@ void serialLoop()
     #endif
 }
 
-    //////////////////////////////////////////////////
-    // Event that is triggered when the serial port receives data.
-    #ifndef ESP32
+ //////////////////////////////////////////////////
+ // Event that is triggered when the serial port receives data.
+ #if defined(__AVR_ATmega2560__)
 void serialEvent()
 {
     processSerialData();
 }
-    #endif
+ #endif
 
-    #if TEST_VERIFY_MODE == 1
+#if TEST_VERIFY_MODE == 1
 
 void processTestState()
 {
@@ -105,7 +105,7 @@ void processSerialData()
 {
     processTestState();
 }
-    #else
+#else
 // ESP needs to call this in a loop :_(
 void processSerialData()
 {

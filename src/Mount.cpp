@@ -1078,9 +1078,11 @@ String Mount::getStepperInfo()
 String Mount::getMountHardwareInfo()
 {
     String ret = F("Unknown,");
-#if defined(ESP32)
+#if defined(ESP32) 
     ret = F("ESP32,");
-#elif defined(__AVR_ATmega2560__) || defined(ARDUINO_ARCH_RP2040)
+#elif defined(ARDUINO_ARCH_RP2040)
+    ret = F("RP2040,");
+#elif defined(__AVR_ATmega2560__)
     ret = F("Mega,");
 #endif
 
@@ -2839,7 +2841,7 @@ void Mount::delay(int ms)
 //
 // This function is only called on run in an ISR. It needs to be fast and do little work.
 /////////////////////////////////
-#if defined(ESP32) || !defined(NEW_STEPPER_LIB)
+#if defined(ESP32) || !defined(NEW_STEPPER_LIB) || defined(ARDUINO_ARCH_RP2040)
 void Mount::interruptLoop()
 {
     // Only process guide pulses if we are tracking.

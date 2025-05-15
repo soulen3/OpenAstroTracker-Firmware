@@ -349,7 +349,7 @@ class Mount
     void loop();
 
 // Low-level process any stepper movement on interrupt callback.
-#if defined(ESP32) || !defined(NEW_STEPPER_LIB)
+#if defined(ESP32) || !defined(NEW_STEPPER_LIB) || defined(ARDUINO_ARCH_RP2040)
     void interruptLoop();
 #endif
 
